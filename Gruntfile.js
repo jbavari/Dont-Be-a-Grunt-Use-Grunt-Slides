@@ -101,9 +101,17 @@ module.exports = function(grunt) {
 				files: [ 'Gruntfile.js', 'js/reveal.js', 'css/reveal.css' ],
 				tasks: 'default'
 			},
-			theme: {
-				files: [ 'css/theme/source/*.scss', 'css/theme/template/*.scss' ],
-				tasks: 'themes'
+			edits: {
+				files: [ 'css/editable.css' ],
+				options: {
+					livereload: 35729,
+				}
+			}
+		},
+
+		dome: {
+			one: {
+
 			}
 		}
 
@@ -117,6 +125,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks( 'grunt-contrib-watch' );
 	grunt.loadNpmTasks( 'grunt-contrib-sass' );
 	grunt.loadNpmTasks( 'grunt-contrib-connect' );
+	grunt.loadNpmTasks( 'grunt-express' ); //Using this for get requests
 	grunt.loadNpmTasks( 'grunt-zip' );
 
 	// Default task
@@ -129,9 +138,58 @@ module.exports = function(grunt) {
 	grunt.registerTask( 'package', [ 'default', 'zip' ] );
 
 	// Serve presentation locally
-	grunt.registerTask( 'serve', [ 'connect', 'watch' ] );
+	grunt.registerTask( 'serve', [ 'connect', 'watch:main' ] );
 
 	// Run tests
 	grunt.registerTask( 'test', [ 'jshint', 'qunit' ] );
+
+	grunt.registerTask('dome', 'Set up express server to use', function(){
+
+		// grunt.task.run(['watch:main']);
+
+		var done = this.async();
+		var express = require('express');
+		var app = express.createServer();
+		
+
+		app.configure(function(){
+			var path = express.static(__dirname + '/');
+			grunt.log.writeln("PATH: " + path);
+		    app.use(path);
+			app.use(express.bodyParser());
+		    app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+		});
+
+		// app.get('/edit', function(req, res) {
+
+		//   grunt.log.writeln("Request body: " + JSON.stringify(req.body));
+
+		//   res.send('hello!');
+		//   // done();
+		// });
+
+		app.post('/edit', function(req, res) {
+		    // grunt.log.writeln("Request body: " + JSON.stringify(req.body));
+			grunt.log.writeln(req.body.css);
+			var fs = require('fs');
+			fs.writeFile("./css/editable.css", req.body.css, function(err) {
+			    if(err) {
+			        console.log(err);
+			    } else {
+			        console.log("The file was saved!");
+			    }
+			}); 
+		});
+
+		app.listen(8000);
+
+		require('open')('http://localhost:8000');
+		// var app = express();
+		// app.use(express.static(__dirname + '../'));
+		// app.use('./');
+		
+		// app.listen(8080);
+		// module.exports = app;
+	});
 
 };
