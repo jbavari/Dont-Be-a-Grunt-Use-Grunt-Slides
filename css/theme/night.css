@@ -1,3 +1,5 @@
+
+
 @import url(https://fonts.googleapis.com/css?family=Montserrat:700);
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,700italic);
 /**
@@ -9,7 +11,11 @@
  * GLOBAL STYLES
  *********************************************/
 body {
-  background: #111111;
+  /*background: #111111;*/
+  background-image: url(https://s3.amazonaws.com/uploads.hipchat.com/41403/429435/YgVwok4JIb4sHUr/grunt-slide-idea.jpg);
+  background-repeat: no-repeat;
+  background-color: #262A2D;
+  background-size: 100%;
   background-color: #111111; }
 
 .reveal {

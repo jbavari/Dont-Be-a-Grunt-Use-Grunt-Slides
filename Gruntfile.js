@@ -109,9 +109,9 @@ module.exports = function(grunt) {
 			}
 		},
 
-		dome: {
-			one: {
-
+		reveal: {
+			livereload: {
+				files: ['css/editable.css']
 			}
 		}
 
@@ -140,56 +140,57 @@ module.exports = function(grunt) {
 	// Serve presentation locally
 	grunt.registerTask( 'serve', [ 'connect', 'watch:main' ] );
 
+	grunt.registerTask( 'server', [ 'dome', 'watch:edits' ] );
+
+
 	// Run tests
 	grunt.registerTask( 'test', [ 'jshint', 'qunit' ] );
 
-	grunt.registerTask('dome', 'Set up express server to use', function(){
+	grunt.registerTask('server', 'Set up express server to use', function(open){
 
-		// grunt.task.run(['watch:main']);
+		var openBrowser = false;
 
-		var done = this.async();
+		if( open || grunt.option('open') ) {
+			openBrowser =true;
+		}
+
+		grunt.task.run('watch:edits');
+		// grunt.task.requires('watch:edits');
+
 		var express = require('express');
 		var app = express.createServer();
 		
 
 		app.configure(function(){
 			var path = express.static(__dirname + '/');
-			grunt.log.writeln("PATH: " + path);
 		    app.use(path);
 			app.use(express.bodyParser());
 		    app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 		});
 
-		// app.get('/edit', function(req, res) {
-
-		//   grunt.log.writeln("Request body: " + JSON.stringify(req.body));
-
-		//   res.send('hello!');
-		//   // done();
-		// });
-
 		app.post('/edit', function(req, res) {
 		    // grunt.log.writeln("Request body: " + JSON.stringify(req.body));
-			grunt.log.writeln(req.body.css);
+		    grunt.log.writeln(">> Express server ");
+		    grunt.log.writeln("Received post request for editing CSS.");
+			grunt.log.writeln("New CSS: " + req.body.css);
 			var fs = require('fs');
 			fs.writeFile("./css/editable.css", req.body.css, function(err) {
 			    if(err) {
 			        console.log(err);
 			    } else {
-			        console.log("The file was saved!");
+			        console.log("editable.css was written correctly.");
 			    }
 			}); 
 		});
 
 		app.listen(8000);
+		grunt.log.writeln("Starting up Express server at port 8000");
 
-		require('open')('http://localhost:8000');
-		// var app = express();
-		// app.use(express.static(__dirname + '../'));
-		// app.use('./');
-		
-		// app.listen(8080);
-		// module.exports = app;
+		//Open the browser;
+		if(openBrowser){
+			var open = require('open');
+			open('http://localhost:8000');
+		}
 	});
 
 };
