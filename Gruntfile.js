@@ -107,12 +107,6 @@ module.exports = function(grunt) {
 					livereload: 35729,
 				}
 			}
-		},
-
-		reveal: {
-			livereload: {
-				files: ['css/editable.css']
-			}
 		}
 
 	});
