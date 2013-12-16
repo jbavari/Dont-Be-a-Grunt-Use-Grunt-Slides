@@ -486,8 +486,7 @@ grunt uglify:all</pre></code>
 
                 <section>
                     <section>
-                        <h2>Automation Events</h2>
-                        <h2>on Code Modification</h2>
+                        <h2>Automation on File Modification</h2>
 
                         <p>
                             Lets watch our SASS / JS / CSS files and when they change, automatically compile or minify.
@@ -602,6 +601,19 @@ karma: {
                 </section>
 
                 <section>
+                    <h2>Git Hooks</h2>
+                    <p>It is worth mentioning that there is a Grunt plugin for Git-hooks - enforce testing on users before they commit.</p>
+                    <pre><code data-trim contenteditable>
+githooks: {
+    all: {
+        'pre-commit': 'test'
+    }
+}
+                    </code></pre>
+                    <button class="code_enlarge">Enlarge</button>
+                </section>
+
+                <section>
                     <h2>Now, write your own</h2>
 
                     <p>Theres a Yeoman generator to help you write your own Grunt plugins - https://github.com/yeoman/generator-gruntplugin</p>
@@ -613,7 +625,8 @@ karma: {
                     <ul>
                         <li><a href="http://www.thomasboyt.com/2013/09/01/maintainable-grunt.html">More maintainable grunt files</a></li>
                         <li><a href="http://flippinawesome.org/2013/09/23/automating-complex-workflows-with-grunt-custom-tasks/">Automating complex workflows with grunt custom tasks</a></li>
-                        <li><a href=""
+                        <li><a href="http://viget.com/extend/grunt-getting-started-with-git-hooks">Grunt: getting started with git hooks</a></li>
+                        <li><a href="https://github.com/cowboy/wesbos/commit/5a2980a7818957cbaeedcd7552af9ce54e05e3fb">Split grunt files into per-task files</a></li>
                     </ul>
 
             </div>
