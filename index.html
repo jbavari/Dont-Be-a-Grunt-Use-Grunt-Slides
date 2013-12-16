@@ -544,6 +544,64 @@ watch: {
                 </section>
 
                 <section>
+                    <section>
+                        <h2>Automating Unit Testing</h2>
+                        <p>Grunt has a wide variety of plugins to assist with testing. Perhaps a good solution would be to set up watch to see any javascript changes, and on those changes execute the unit tests</p>
+                    </section>
+                    <section>
+                        <h2>Jasmine</h2>
+                        <p>Run jasmine specs headlessly through PhantomJS.</p>
+                        <pre><code data-trim contenteditable>
+  jasmine: {
+    pivotal: {
+      src: 'src/**/*.js',
+      options: {
+        specs: 'spec/*Spec.js',
+        helpers: 'spec/*Helper.js'
+      }
+    }
+  }
+                    </code></pre>
+                    <button class="code_enlarge">Enlarge</button>
+                    </section>
+                    <section>
+                        <h2>QUnit</h2>
+                        <p>Run QUnit unit tests in a headless PhantomJS instance.</p>
+                        <pre><code data-trim contenteditable>
+// Project configuration.
+grunt.initConfig({
+  qunit: {
+    all: ['test/**/*.html']
+  }
+});
+                        </code></pre>
+                        <button class="code_enlarge">Enlarge</button>
+                    </section>
+                    <section>
+                        <h2>Karma</h2>
+                        <p>Run all your unit tests for Jasmine/QUnit/Mocha through multiple browsers Chrome/Firefox/Safari/Phantom</p>
+
+                        <pre><code data-trim contenteditable>
+karma: {
+  options: {
+    configFile: 'karma.conf.js',
+    runnerPort: 9999,
+    browsers: ['Chrome', 'Firefox']
+  },
+  continuous: {
+    singleRun: true,
+    browsers: ['PhantomJS']
+  },
+  dev: {
+    reporters: 'dots'
+  }
+}
+                        </pre></code>
+                        <button class="code_enlarge">Enlarge</button>
+                    </section>
+                </section>
+
+                <section>
                     <h2>Now, write your own</h2>
 
                     <p>Theres a Yeoman generator to help you write your own Grunt plugins - https://github.com/yeoman/generator-gruntplugin</p>
@@ -553,7 +611,9 @@ watch: {
                     <h2>References</h2>
 
                     <ul>
-                        <li></li>
+                        <li><a href="http://www.thomasboyt.com/2013/09/01/maintainable-grunt.html">More maintainable grunt files</a></li>
+                        <li><a href="http://flippinawesome.org/2013/09/23/automating-complex-workflows-with-grunt-custom-tasks/">Automating complex workflows with grunt custom tasks</a></li>
+                        <li><a href=""
                     </ul>
 
             </div>
@@ -624,12 +684,14 @@ watch: {
                 })
             });
 
-            $(document).on("click", ".code_enlarge", function() {
+            $(document).on("click", ".code_enlarge", function(e) {
                 var code = $(this).parent().find("code");
                 $("#code_highlight").css("display", "block");
                 $("#code_highlight").find("code").text(code.text());
                 codeHighlight = true;
-                hljs.highlightBlock($("#code_highlight").find("code")[0])
+                hljs.highlightBlock($("#code_highlight").find("code")[0]);
+                e.preventDefault();
+                return false;
             });
 
             $(document).on("click", "#code_close", function(e){
@@ -637,6 +699,8 @@ watch: {
                     $("#code_highlight").css("display", "none");
                     codeHighlight = false;
                 }
+                e.preventDefault();
+                return false;
             });
         })
 
