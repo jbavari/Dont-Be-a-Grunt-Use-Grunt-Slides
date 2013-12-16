@@ -65,6 +65,22 @@
                 box-shadow: 2px 2px #e48632;
                 outline: 0;
             }
+
+            #code_highlight {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                z-index: 1000;
+            }
+
+            #code_highlight pre, #code_highlight code {
+                height: 100%;
+                width: 100%;
+                font-size: 1.5em;
+                overflow: auto;
+            }
         </style>
     </head>
 
@@ -240,6 +256,7 @@ var foo = grunt.option('bar') || 'fubar';
 
 };
                         </code></pre>
+                        <button class="code_enlarge">Enlarge</button>
                     </section>
                 </section>
 
@@ -344,6 +361,7 @@ npm install grunt-contrib-uglify --save-dev</code></pre>
 
 grunt.loadNpmTasks('grunt-contrib-uglify');
                         </code></pre>
+                        <button class="code_enlarge">Enlarge</button>
                     </section>
                     <section>
                         <h2>Run the task!</h2>
@@ -419,6 +437,7 @@ watch: {
   }
 },
                         </code></pre>
+                        <button class="code_enlarge">Enlarge</button>
                     </section>
                     <section>
                         <h2>LiveReload</h2>
@@ -498,6 +517,8 @@ watch: {
             //     // event.previousSlide, event.currentSlide, event.indexh, event.indexv
             // } );
 
+        var codeHighlight = false;
+
         $(function(){
             $(document).on("click", "#edit_changes", function() {
                 var edited_css = $("#edited_css").text();
@@ -510,9 +531,31 @@ watch: {
                   dataType: "json"
                 })
             });
+
+            $(document).on("click", ".code_enlarge", function() {
+                var code = $(this).parent().find("code");
+                $("#code_highlight").css("display", "block");
+                $("#code_highlight").find("code").text(code.text());
+                codeHighlight = true;
+                hljs.highlightBlock($("#code_highlight").find("code")[0])
+            });
+
+            $(document).on("click", "#code_close", function(e){
+                if(codeHighlight) {
+                    $("#code_highlight").css("display", "none");
+                    codeHighlight = false;
+                }
+            });
         })
 
         </script>
+
+        <div id="code_highlight" style="display: none">
+            <pre><code data-trim contenteditable>
+            </code></pre>
+
+            <button id="code_close" style="position: absolute; top: 0; right: 100px;">Close</button>
+        </div>
 
     </body>
 </html>
