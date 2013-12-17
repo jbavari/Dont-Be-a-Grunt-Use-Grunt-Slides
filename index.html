@@ -250,6 +250,10 @@ grunt.initConfig({
 // Load the plugin that provides the "concat" task.
 grunt.loadNpmTasks('grunt-contrib-concat');
 
+//Register the task to run
+grunt.registerTask('compile', ['clean', 'concat', 'jshint', 'karma', 'uglify', 'preprocess', 'shell:build']);
+
+//OPTIONAL
 //Loads .js files in ./tasks directory
 grunt.loadTasks("tasks");
 
@@ -292,6 +296,18 @@ grunt.initConfig({
 grunt.registerMultiTask('log', 'Log stuff.', function() {
   grunt.log.writeln(this.target + ': ' + this.data);
 });
+                        </code></pre>
+                        <button class="code_enlarge">Enlarge</button>
+                    </section>
+                    <section>
+                        <h2>Grunt Options</h2>
+                        <p>You can think of Grunt options as the command line parameters you pass to grunt for calling tasks. They can be used anywhere in </p>
+                        <pre><code data-trim contenteditable>
+module.exports = function(grunt) {
+
+    //grunt express --host=server.raisemore.com
+    var host = grunt.option('host');
+};
                         </code></pre>
                         <button class="code_enlarge">Enlarge</button>
                     </section>
