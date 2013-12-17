@@ -542,7 +542,7 @@ watch: {
                     <section>
                         <h2>LiveReload</h2>
 
-                        <p>Automatically reload styles/images in browser without hitting refresh</p>
+                        <p>Include livereload.js file - server pushes file changes to browser</p>
 
                         <div id="editable_css">
                             #editable_css - edit my css below and watch me change
@@ -627,6 +627,77 @@ githooks: {
 }
                     </code></pre>
                     <button class="code_enlarge">Enlarge</button>
+                </section>
+                <section>
+                    <section>
+                        <h2>Image Tasks</h2>
+                        <p>Say you want to resize images, or minify them. There are Grunt Plugins for those.</p>
+                    </section>
+                    <section>
+                        <h2>Image resizing</h2>
+                        <pre><code data-trim contenteditable>
+image_resize: {
+  android_small: {
+    options: {
+      height: 426,
+      width: 320
+    },
+    files: {
+      //Destination : source
+      './android/res/drawable/splash.png': resize_file
+    }
+  },
+  android_normal: {
+    options: {
+      height: 470,
+      width: 320
+    },
+    files: {
+      //Destination : source
+      './android/res/drawable-mdpi/splash.png': resize_file
+
+    }
+  },
+  android_large: {
+    options: {
+      height: 640,
+      width: 480
+    },
+    files: {
+      //Destination : source
+      './android/res/drawable-ldpi/splash.png': resize_file,
+      './android/res/drawable-hdpi/splash.png': resize_file
+    }
+  }
+                        </code></pre>
+                        <button class="code_enlarge">Enlarge</button>
+                    </section>
+                    <section>
+                        <h2>Image Minification</h2>
+                        <pre><code data-trim contenteditable>
+imagemin: {
+    static: {
+      options: {
+        optimizationLevel: 3
+      },
+      files: {
+        'dist/img.png': 'src/img.png', // 'destination' : 'source'
+        'dist/img.jpg': 'src/img.jpg',
+        'dist/img.gif': 'src/img.gif'
+      }
+    },
+    dynamic: {
+      files: [{
+        expand: true,
+        cwd: 'src/', 
+        src: ['**/*.{png,jpg,gif}'],
+        dest: 'dist/'
+      }]
+    }
+  }
+                        </code></pre>
+                        <button class="code_enlarge">Enlarge</button>
+                    </section>
                 </section>
 
                 <section>
