@@ -132,7 +132,7 @@ module.exports = function(grunt) {
 	grunt.registerTask( 'package', [ 'default', 'zip' ] );
 
 	// Serve presentation locally
-	grunt.registerTask( 'serve', [ 'connect', 'watch:main' ] );
+	// grunt.registerTask( 'serve', [ 'connect', 'watch:main' ] );
 
 	grunt.registerTask( 'server', [ 'dome', 'watch:edits' ] );
 
@@ -140,7 +140,7 @@ module.exports = function(grunt) {
 	// Run tests
 	grunt.registerTask( 'test', [ 'jshint', 'qunit' ] );
 
-	grunt.registerTask('server', 'Set up express server to use', function(open){
+	grunt.registerTask('serve', 'Set up express server to use', function(open){
 
 		var openBrowser = false;
 
